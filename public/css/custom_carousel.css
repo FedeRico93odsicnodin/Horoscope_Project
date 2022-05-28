@@ -1,0 +1,66 @@
+.carousel-caption {
+    bottom: 90px; }
+  
+  .carousel-indicators li {
+    width: 70px;
+    height: 36px;
+    border: 1px solid #222; }
+  .carousel-indicators .active {
+    border: 1px solid #ff7474; }
+  
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    .carousel-indicators {
+      position: relative !important;
+      bottom: 0; }
+  
+    .carousel-caption {
+      bottom: 0px;
+      top: 80px; }
+      .carousel-caption h5 {
+        font-size: 12px;
+        font-weight: bold; }
+      .carousel-caption p {
+        font-size: 10px; }
+  
+    .carousel-title {
+      font-size: 18px;
+      margin-top: 20px; } }
+  
+  /*# sourceMappingURL=main.css.map */
+  #carousel_custom_id {
+      background-color: indigo;
+      min-height: 500px;
+      border-radius: 25px;
+      
+
+  }
+
+  #carousel_custom_id_2 {
+      margin:100px;
+      padding:30px;
+      overflow-y:scroll;
+      overflow: auto;
+  }
+
+  #carousel_custom_id_3 {
+    background-color: rgb(140, 106, 165);
+      min-height: 500px;
+      border-radius: 25px;
+      
+  }
+
+
+  .customButton {
+      background-color: black;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      position:sticky;
+      margin-right: 5px;
+  }
+
+
+  #carouselMonthly {
+      min-height: 400px;
+      
+  }

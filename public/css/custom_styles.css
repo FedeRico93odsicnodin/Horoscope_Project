@@ -1,0 +1,47 @@
+#background_Vid {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+  }
+
+
+  .content_onBkg {
+    position:sticky;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: black;
+    width: 100%;
+    padding: 20px;
+  }
+
+
+  .content_onBkg_fixed {
+    position:fixed;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: black;
+    width: 100%;
+    padding: 20px;
+    overflow-y: scroll;
+  }
+
+
+  /* PROFILE CSS */
+.content_onBkg_image {
+
+    background-image:  url('/data/background_profile_render.jpg') ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.content_onBkg_image_2 {
+
+    background-image:  url('/data/background_evaluation.gif') ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
