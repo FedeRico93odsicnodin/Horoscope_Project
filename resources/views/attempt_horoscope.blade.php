@@ -27,7 +27,7 @@
     <body>
        
         <video autoplay muted loop id="background_Vid">
-            <source src="{{ url('data/bkg_video_horoscope_2.mp4') }}" type="video/mp4">
+            <source src="{{ url('data/bkg_video_horoscope_2_2.mp4') }}" type="video/mp4">
             Your browser does not support HTML5 video.
           </video>
           <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">

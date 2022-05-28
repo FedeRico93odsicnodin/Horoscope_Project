@@ -41,6 +41,13 @@
       overflow-y:scroll;
       overflow: auto;
   }
+  #carousel_custom_id_4 {
+    margin:30px;
+    padding:4px;
+    overflow-y:scroll;
+    overflow: auto;
+}
+
 
   #carousel_custom_id_3 {
     background-color: rgb(140, 106, 165);

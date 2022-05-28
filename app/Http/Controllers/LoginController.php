@@ -128,8 +128,8 @@ class LoginController extends Controller
                             // visualizzazione giornaliera
                             $dailyHor = $objects_zodiac_descriptions 
                             -> Where('Sign_ID', '=', $idSign)
-                            -> Where('Period_ID', '=', $idDay)
-                            ->First();
+                            -> Where('Period_ID', '=', $idDay);
+                           
 
                             $dailyHor_Real['Sign'] = $descrSign;
                             $dailyHor_Real['Value'] = $dailyHor;

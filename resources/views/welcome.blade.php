@@ -48,11 +48,11 @@
             <div class="container px-4 px-lg-5 h-100">
                 <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-end">
-                        <h1 class="text-white font-weight-bold">H or Scope</h1>
+                        <h1 class="text-white font-weight-bold">H 'n 'Scope</h1>
                         <hr class="divider" />
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 mb-5">Your Stars always On Your Side!</p>
+                        <p class="text-white-75 mb-5">The Stars always On Your Side!</p>
                         <a class="btn btn-primary btn-xl" href="try">Try Now</a>
                         
                         <a class="btn btn-primary btn-xl" href="login">Login</a>
@@ -69,7 +69,7 @@
                         <hr class="divider divider-light" />
                         <p class="text-white-75 mb-4">Discover Your Horoscope Always Updated, Daily and for the Next Future
                             <br>With your Birthday information will be simple as it is 
-                            <br>Try it now Or make a free account for more News and Functionalities!
+                            <br>Try it now Or make a Free account for More News and Functionalities!
                         </p>
                         <a class="btn btn-light btn-xl" href="subscribe">Subscribe</a>
                     </div>
@@ -77,7 +77,7 @@
             </div>
         </section>
         <!-- Services-->
-        <section class="page-section" id="services">
+        <section class="page-section text-white" id="services">
             <div class="container px-4 px-lg-5">
                 <h2 class="text-center mt-0">Our Services</h2>
                 <hr class="divider" />
@@ -93,14 +93,14 @@
                         <div class="mt-5">
                             <div class="mb-2"><i class="bi-laptop fs-1 text-primary"></i></div>
                             <h3 class="h4 mb-2">Make an Upgrade</h3>
-                            <p class="text-muted mb-0">Get a free profile <br> Keep updated for the next of the week</p>
+                            <p class="text-muted mb-0">Get a free profile <br> Keep updated for the next of the Week</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
                             <div class="mb-2"><i class="bi-globe fs-1 text-primary"></i></div>
                             <h3 class="h4 mb-2">Become a Pro</h3>
-                            <p class="text-muted mb-0">Keep updated for the rest of month <br> Save Your results <br> Talk with our experts</p>
+                            <p class="text-muted mb-0">Keep updated for the rest of Month <br> Save Your Results <br> Talk with our experts</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
@@ -115,7 +115,7 @@
         </section>
         
         <!-- Contact-->
-        <section class="page-section" id="contact">
+        <section class="page-section text-white" id="contact">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8 col-xl-6 text-center">
