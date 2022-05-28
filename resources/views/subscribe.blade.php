@@ -36,19 +36,19 @@
           <div class="content_onBkg">
               <!-- Navigation-->
               <section>
-                <div class="container py-5 h-100">
-                  <div class="row justify-content-center align-items-center h-100">
+                <div >
+                  <div class="row justify-content-center align-items-center h-100" style={margin:10px}>
                     <div class="col-12 col-lg-9 col-xl-7">
                       <div class="card bg-dark text-white card-registration" style="border-radius: 15px;">
                         <div class="card-body p-4 p-md-5">
                           <h3 class="fw-bold mb-2 text-uppercase5">Your Information</h3>
-                          <form>
+                          <form method="POST" action="{{ route('subscribe.subscribe') }}">
               
                             <div class="row">
                               <div class="col-md-12 mb-4">
               
                                 <div class="form-outline">
-                                  <input type="text" id="firstName" class="form-control form-control-lg" />
+                                  <input type="text" id="firstName" class="form-control form-control-lg" name="Name" />
                                   <label class="form-label" for="firstName">First Name</label>
                                 </div>
               
@@ -56,7 +56,7 @@
                               <div class="col-md-12 mb-4">
               
                                 <div class="form-outline">
-                                  <input type="text" id="lastName" class="form-control form-control-lg" />
+                                  <input type="text" id="lastName" class="form-control form-control-lg" name="Surname" />
                                   <label class="form-label" for="lastName">Last Name</label>
                                 </div>
               
@@ -67,7 +67,7 @@
                               <div class="col-md-12 mb-4 d-flex align-items-center">
               
                                 <div class="form-outline datepicker w-100">
-                                  <input type="text" class="form-control form-control-lg" id="birthdayDate" />
+                                  <input type="Date" class="form-control form-control-lg" id="birthdayDate" name="BirthDate" />
                                   <label for="birthdayDate" class="form-label">Birthday</label>
                                 </div>
               
@@ -77,20 +77,20 @@
                                 <h6 class="mb-2 pb-1">Gender: </h6>
               
                                 <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
-                                    value="option1" checked />
+                                  <input class="form-check-input" type="radio" name="gender" id="femaleGender"
+                                    value="1" checked />
                                   <label class="form-check-label" for="femaleGender">Female</label>
                                 </div>
               
                                 <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender"
-                                    value="option2" />
+                                  <input class="form-check-input" type="radio" name="gender" id="maleGender"
+                                    value="2" />
                                   <label class="form-check-label" for="maleGender">Male</label>
                                 </div>
               
                                 <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="otherGender"
-                                    value="option3" />
+                                  <input class="form-check-input" type="radio" name="gender" id="otherGender"
+                                    value="3" />
                                   <label class="form-check-label" for="otherGender">Other</label>
                                 </div>
               
@@ -101,7 +101,7 @@
                               <div class="col-md-12 mb-4 pb-2">
               
                                 <div class="form-outline">
-                                  <input type="email" id="emailAddress" class="form-control form-control-lg" />
+                                  <input type="email" id="emailAddress" class="form-control form-control-lg" name="Email" />
                                   <label class="form-label" for="emailAddress">Email</label>
                                 </div>
               
@@ -109,7 +109,7 @@
                               <div class="col-md-12 mb-4 pb-2">
               
                                 <div class="form-outline">
-                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" />
+                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="PhoneNumber" />
                                   <label class="form-label" for="phoneNumber">Phone Number</label>
                                 </div>
               
@@ -117,7 +117,7 @@
                               <div class="col-md-12 mb-4 pb-2">
               
                                 <div class="form-outline">
-                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" />
+                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="City" />
                                   <label class="form-label" for="phoneNumber">City</label>
                                 </div>
               
@@ -125,7 +125,7 @@
                               <div class="col-md-12 mb-4 pb-2">
               
                                 <div class="form-outline">
-                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" />
+                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="ZipCode" />
                                   <label class="form-label" for="phoneNumber">Zip Code</label>
                                 </div>
               
@@ -134,9 +134,20 @@
                               <div class="col-md-12 mb-4 pb-2">
               
                                 <div class="form-outline">
-                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" />
+                                  <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="Country"/>
                                   <label class="form-label" for="phoneNumber">Country</label>
                                 </div>
+              
+                              </div>
+
+                              
+                            <div class="col-md-12 mb-4 pb-2">
+                              <div class="col-12">
+                                <div class="form-outline"  style={padding-top:25px}>
+                                  <input type="password" id="phoneNumber" class="form-control form-control-lg" name="Password"/>
+                                  <label class="form-label" for="phoneNumber">Password</label>
+                                </div>
+                                
               
                               </div>
                             </div>
@@ -144,20 +155,30 @@
                             <div class="row">
                               <div class="col-12">
                                 <label class="form-label select-label">Subscription Type</label>
-                                <select class="select form-control-lg">
-                                  <option value="1" disabled>Subscription Type</option>
-                                  <option value="2">Standard</option>
-                                  <option value="3">Premium</option>
-                                  <option value="4">Developer</option>
+                                <select class="select form-control-lg" name="account_selection">
+                                  <option value="1" name="Std_opt">Standard</option>
+                                  <option value="2" name="Premium_opt">Premium</option>
+                                  <option value="3" name="Dev_opt">Developer</option>
                                 </select>
                                 
               
                               </div>
                             </div>
+
+                            </div>
               
+                            @if($response['with_err'] == true)
+                            <p class="small mb-5 pb-lg-2" style="background-color:red;margin-top:20px"><a class="text-white-50" href="#!">Missing parameters</a></p>
+                           
+                            @elseif($response['subscription_done'] == true) 
+                            <p class="small mb-5 pb-lg-2" style="background-color:green;margin-top:20px"><a class="text-white-50" href="#!">Subscription done</a></p>
+                            @endif
+
                             <div class="mt-4 pt-2">
                               <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
                             </div>
+
+
               
                           </form>
                         </div>

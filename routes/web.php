@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UploadFile;
 use App\Http\Controllers\TryActionController;
+use App\Http\Controllers\SubscribeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,7 +33,14 @@ Route::get('/login', function() {
 
 
 Route::get('/subscribe', function() {
-    return view('subscribe');
+
+    // oggetto di ritorno 
+    $response = [];
+    $response['subscription_done'] = false;
+    $response['with_err'] = false;
+    $response['err'] = '';
+
+    return view('subscribe') -> with('response',  $response);
 });
 
 
@@ -43,3 +51,6 @@ Route::get('/yourprofile', function() {
 Route::post('login', [LoginController::class, 'checkLogin'])->name('login.checkLogin');
 Route::post('UploadFile', [UploadFile::class, 'uploadCSV']);
 Route::post('actionTry', [TryActionController::class, 'tryAction']);
+
+
+Route::post('subscribe', [SubscribeController::class, 'subscribe'])->name('subscribe.subscribe');
