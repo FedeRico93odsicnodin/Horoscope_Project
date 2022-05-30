@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Laravel</title>
+        <title>Subscribe</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -168,10 +168,10 @@
                             </div>
               
                             @if($response['with_err'] == true)
-                            <p class="small mb-5 pb-lg-2" style="background-color:red;margin-top:20px"><a class="text-white-50" href="#!">Missing parameters</a></p>
+                            <p class="text-dark small mb-5 pb-lg-2" style="background-color:red;margin-top:20px"><a>Please compile missed info for subscription</a></p>
                            
                             @elseif($response['subscription_done'] == true) 
-                            <p class="small mb-5 pb-lg-2" style="background-color:green;margin-top:20px"><a class="text-white-50" href="#!">Subscription done</a></p>
+                            <p class="text-dark small mb-5 pb-lg-2" style="background-color:green;margin-top:20px"><a>Subscription done</a></p>
                             @endif
 
                             <div class="mt-4 pt-2">

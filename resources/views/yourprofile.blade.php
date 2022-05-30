@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Laravel</title>
+        <title>Profile</title>
         <!-- Bootstrap 4 Default CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
         <!-- Font Awesome CSS -->
@@ -15,6 +15,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         crossorigin="anonymous"></script>
         <script src="{{ url('js/custom_carousel.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -32,7 +34,7 @@
         </style>
         <meta charset="utf-8">
          <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+         
 
     </head>
     <body>
@@ -41,7 +43,7 @@
             <source src="{{ url('data/bkg_video_horoscope_onprofile.mp4') }}" type="video/mp4">
             Your browser does not support HTML5 video.
           </video>
-          <div class="content_onBkg">
+          <div class="content_onBkg_2">
           <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <button onclick="myFunction()" class="customButton" text="+"></button>
             <div class="content_onBkg" id="myDIV">
@@ -52,7 +54,16 @@
             
                 <div >
                     <center>
-                    <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="140" height="140" class="img-circle"></a>
+                    <a href="#aboutModal" data-toggle="modal" data-target="#myModal">
+                        @if(session()->get('loggedUser') ->SubscriptionType_ID == 3)
+                        <img src="{{ url('data/accounts/developer.jpg') }}" name="aboutme" width="140" height="140" class="img-circle"></a>
+                        @elseif(session()->get('loggedUser') ->SubscriptionType_ID == 2)
+                        <img src="{{ url('data/accounts/premium.jpg') }}" name="aboutme" width="140" height="140" class="img-circle"></a>
+                        @elseif(session()->get('loggedUser') ->SubscriptionType_ID == 1)
+                        <img src="{{ url('data/accounts/standard_2.jpg') }}" name="aboutme" width="140" height="140" class="img-circle"></a>
+                        @endif
+                        
+                        
                     <h3 class="text-white font-weight-bold">{{ 
                         session()->get('loggedUser') ->Name
                          }} </h3>
@@ -60,7 +71,11 @@
                         
                         session()->get('loggedUser') ->Surname }}</h3>
                     @if(session()->get('loggedUser') ->SubscriptionType_ID == 3)
-                    <p class="text-white font-weight-bold">Developer<p>
+                    <p class="text-white small">(Developer)<p>
+                        @elseif(session()->get('loggedUser') ->SubscriptionType_ID == 2)
+                        <p class="text-white small">(Premium)<p>
+                        @elseif(session()->get('loggedUser') ->SubscriptionType_ID == 1)
+                        <p class="text-white small">(Standard)<p>
                     @endif
                     <em class="text-white font-weight-bold">{{ session()->get('loggedUser') ->Email }}</em>
                     </center>
@@ -81,12 +96,12 @@
                 <center> <button type="submit" class="btn btn-primary btn-xl" >Upload File</button></center>
                         @if(Count(session() -> get('uploadFile_result')) > 0)
                         @if(session() -> get('uploadFile_result')['result'] == false)
-                          <p class="small mb-5 pb-lg-2" style="background-color:red;margin-top:25px"><a class="text-white-50">
-                            Following error encountered uploading file: {{ session() -> get('uploadFile_result')['message'] }}
+                          <p class="small mb-5 pb-lg-2" style="background-color:red;margin-top:25px"><a>
+                            {{ session() -> get('uploadFile_result')['message'] }}
                             </a></p>
                             @elseif(session() -> get('uploadFile_result')['result'] == true) 
-                            <p class="small mb-5 pb-lg-2" style="background-color:rgb(0, 255, 72);margin-top:25px"><a class="text-white-50">
-                            File uploaded correctly! 
+                            <p class="small mb-5 pb-lg-2" style="background-color:rgb(0, 255, 72);margin-top:25px"><a>
+                            File uploaded successfully! 
                             </a></p>
                             @endif
                           @endif
@@ -98,54 +113,62 @@
 
 
         @if(session()->get('loggedUser') ->SubscriptionType_ID == 1 or session()->get('loggedUser') ->SubscriptionType_ID == 2)
+        @if(session()->get('vis_day_ok')) 
+        <section class="page-section">
+        <div class="container" id="contact">
+            <div class="row">
+                <div class="col-md-12">
 
-<section class="page-section">
-    <div class="container" id="contact">
-        <div class="row">
-            <div class="col-md-12">
+                <h1 class="text-center carousel-title text-white font-weight-bold">Daily Horoscope: {{ session()->get('visualizzazione_giornaliera')['Sign'] }}</h1>
+                <hr>
+                <div id="carousel_custom_id_3">
+                                            <div id="custom_table_page_container">
+                                            </div class="text-white">
+                                                    <table class="table-dark text-white" id="custom_table_page" style="width:100%">
+                                                        <thead><tr><th>Day</th><th>Prevision</th></tr></thead>
+                                                    <tbody>
+                                                        @foreach(session()->get('visualizzazione_giornaliera')['Value'] as $currDaily)
+                                                        <tr >
+                                                        <td style="width: 10%">{{ $currDaily -> DatePrevision }}</td>
+                                                        <td> 
+                                                <div><p> 
+                                                    {{ $currDaily -> Description_Prevision }}
+                                                    
+                                                    
+                                                    </p></td>
+                                                    </tr>
+                                                        @endforeach
+                                                    
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                </div>
 
-            <h1 class="text-center carousel-title text-white font-weight-bold">Daily Horoscope: {{ session()->get('visualizzazione_giornaliera')['Sign'] }}</h1>
-            <hr>
-            <div class="carousel-item active" id="carousel_custom_id_3">
-                                        <div id="carousel_custom_id_4">
-                                           </div>
-                                                <table class="table table-striped" style="width:100%">
-                                               
-                                                <tbody>
-                                                    @foreach(session()->get('visualizzazione_giornaliera')['Value'] as $currDaily)
-                                                    <tr >
-                                                    <td style="width: 10%">{{ $currDaily -> DatePrevision }}</td>
-                                                    <td> 
-                                            <div><p> 
-                                                {{ $currDaily -> Description_Prevision }}
-                                                
-                                                
-                                                </p></td>
-                                                </tr>
-                                                    @endforeach
-                                                
-                                                </tbody>
-                                            </table>
-                                        </div>
-            </div>
-            <center>
-
-           
-                                        <ul class="pagination">
-    <li><a >1</a></li>
-    <li><a >2</a></li>
-    <li><a >3</a></li>
-    <li><a >4</a></li>
-    <li><a >5</a></li>
-  </ul>
-                                    </div>
-            </center>
-            </div>
             
-        </div>
-    </section>>
+                                        </div>
+                </div>
 
 
+            </section>
+            @else 
+            <section class="page-section">
+        <div class="container" id="contact">
+            <div class="row">
+                <div class="col-md-12">
+
+                <h1 class="text-center carousel-title text-white font-weight-bold">No data to display for day</h1>
+             
+                </div>
+
+
+            </section>
+            @endif
+      
+
+
+        
+
+        @if(session()->get('vis_week_ok'))  
         <section class="page-section" id="contact">
             <center>
                 <div class="container">
@@ -160,57 +183,59 @@
                             </div>
                             <!-- End of Col-md-12 -->
 
-                            <div id="carouselExample" class="carousel slide" data-ride="carousel">
+                            <div id="carouselExample" class="carousel slide text-white" data-ride="carousel" style="width:100%">
 
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carouselExample" data-slide-to="0" class="active">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 1&font=noto" alt="First slide">
+                                <center>
+                                <ol class="carousel-indicators" >
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="0" class="active">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/Ariete.png') }}" alt="First slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="1">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 2&font=noto" alt="Second slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="1">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/Toro.png') }}" alt="Second slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="2">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 3&font=noto" alt="Third slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="2">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/gemelli.png') }}" alt="Third slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="3">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 1&font=noto" alt="First slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="3">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/cancro.png') }}" alt="First slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="4">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 2&font=noto" alt="Second slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="4">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/leone.png') }}" alt="Second slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="5">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 3&font=noto" alt="Third slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="5">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/vergine.png') }}" alt="Third slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="6">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 3&font=noto" alt="Third slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="6">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/bilancia.png') }}" alt="Third slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="7">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 3&font=noto" alt="Third slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="7">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/scorpione.png') }}" alt="Third slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="8">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 1&font=noto" alt="First slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="8">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/sagittario.png') }}" alt="First slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="9">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 2&font=noto" alt="Second slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="9">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/capricorno.png') }}" alt="Second slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="10">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 3&font=noto" alt="Third slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="10">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/acquario.png') }}" alt="Third slide">
                                     </li>
 
-                                    <li data-target="#carouselExample" data-slide-to="11">
-                                        <img class="d-block w-100" src="https://fakeimg.pl/800x400/?retina=1&text=Slider 3&font=noto" alt="Third slide">
+                                    <li data-target="#carouselExample" style="width: 100px;height:70px;background-color:rgba(255, 255, 255, 0); border : 0" data-slide-to="11">
+                                        <img class="d-block w-100 h-100" src="{{ url('data/signs/pesci.png') }}" alt="Third slide">
                                     </li>
                                 </ol>
+                                </center>
                                 <!-- Carousel Indicators -->
 
                                 <div class="carousel-inner">
@@ -338,28 +363,53 @@
 
                             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
+                            <script
+                                type="text/javascript"
+                                charset="utf8"
+                                src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"
+                                ></script>
+                                <script
+                                type="text/javascript"
+                                charset="utf8"
+                                src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
             </center>
         </section>
+        @else  
+        <section class="page-section">
+        <div class="container" id="contact">
+            <div class="row">
+                <div class="col-md-12">
+
+                <h1 class="text-center carousel-title text-white font-weight-bold">No data to display for week</h1>
+             
+                </div>
+
+
+            </section>
         @endif
+        @endif
+       
 
 
         @if(session()->get('loggedUser') ->SubscriptionType_ID == 2)
-        <section style="padding-top: 10em">
+@if(session()->get('vis_month_ok')) 
+<section style="padding-top: 10em">
             <center>
-                <div class="container" style="background-color: blueviolet; border-radius: 25px; padding-top:13px" >
-                        <div class="row">
+                <div class="container" >
+                        <div class="row" >
                             <div class="col-md-12">
-                                <h1 class="text-center carousel-title">Monthly Horoscope</h1>
+                                <h1 class="text-center carousel-title text-white">Monthly Horoscope</h1>
                                 <hr>
                             </div>
                             <!-- End of Col-md-12 -->
-                            <div class="col-md-12" id="carouselMonthly">
+                            <div class="col-md-12 text-white" id="carouselMonthly" style="border-radius: 25px; padding-top:65px" >
                                 <div id="carouselExample_2" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 1&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/ariete_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -375,7 +425,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/Toro_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -392,7 +442,7 @@
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
 
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 3&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/Gemelli_2.png') }}" alt="First slide">
 
                                                 </div>
                                                 <div class="col-md-6 text-left">
@@ -408,7 +458,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/Cancro_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -423,7 +473,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/leone_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -438,7 +488,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/vergine_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -453,7 +503,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/bilancia_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -468,7 +518,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/scorpione_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -483,7 +533,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/sagittario_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -498,7 +548,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/capricorno_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -513,7 +563,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/acquario_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -528,7 +578,7 @@
                                         <div class="carousel-item">
                                             <div class="row">
                                                 <div class="col-md-2 offset-md-2">
-                                                    <img class="rounded-circle" src="https://fakeimg.pl/100x100/?text=Client 2&font=lobster" alt="First slide">
+                                                    <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/pesci_2.png') }}" alt="First slide">
                                                 </div>
                                                 <div class="col-md-6 text-left">
                                                     <blockquote class="blockquote">
@@ -560,7 +610,27 @@
                         </div>
                 </center>
             </section>
+        @else 
+        <section class="page-section">
+                <div class="container" id="contact">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                        <h1 class="text-center carousel-title text-white font-weight-bold">No data to display for month</h1>
+                    
+                        </div>
+
+
+                    </section>
         @endif
+
+        
+        @endif
+        </div>
+    
+
+
+        
         
     </body>
 </html>

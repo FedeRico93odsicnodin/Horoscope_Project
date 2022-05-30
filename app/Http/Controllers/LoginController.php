@@ -56,7 +56,15 @@ class LoginController extends Controller
                 session()->put('visualizzazione_giornaliera', $visualizzazione_giornaliera);
                 session()->put('visualizzazione_settimanale', $visualizzazione_settimanale);
                 session()->put('visualizzazione_mensile', $visualizzazione_mensile);
-                
+
+                // inizializzazioni per le variabili di display delle diverse funzionalità
+                $dayVisual = false;
+                $weekVisual = false;
+                $monthVisual = false;
+                session()->put('vis_day_ok', $dayVisual);
+                session()->put('vis_week_ok', $weekVisual);
+                session()->put('vis_month_ok', $monthVisual);
+
 
                 if($user->SubscriptionType_ID == 1 or $user->SubscriptionType_ID == 2) {
 
@@ -92,6 +100,9 @@ class LoginController extends Controller
                     $objects_zodiac_descriptions = DB::table('horoscope_objects')-> orderBy('DatePrevision', 'DESC')->get();
 
 
+
+
+
                     // calcolo della descrizione per il segno zodiacale giornaliero
                     // recupero del segno zodiacale per l'utente corrente 
                     foreach($zodiac_signs as $zodiac_sign) {
@@ -123,65 +134,128 @@ class LoginController extends Controller
                             $descrSign = $zodiac_sign -> Description;
 
 
+                        // verifico la presenza di dati per le visualizzazione disponibili
+                        if($objects_zodiac_descriptions 
+                        -> Where('Period_ID', '=', $idDay)
+                        -> Where('Sign_ID', '=', $idSign)
+                        ->count() > 0 ) {
+                            $dayVisual = true;
+                        }
+                        if($objects_zodiac_descriptions -> Where('Period_ID', '=', $idWeek)->count() >= 12 ) {
 
-                            $dailyHor_Real = [];
-                            // visualizzazione giornaliera
-                            $dailyHor = $objects_zodiac_descriptions 
-                            -> Where('Sign_ID', '=', $idSign)
-                            -> Where('Period_ID', '=', $idDay);
+                            $counterSignWeek = 0;
+                            // conto se esiste almeno un valore per il segno zodiacale corrente
+                            foreach($zodiac_signs as $zodiac_sign_2) {
+                                
+                                if($objects_zodiac_descriptions 
+                                -> Where('Period_ID', '=', $idWeek)
+                                -> Where('Sign_ID', '=',  $zodiac_sign_2 -> Id)
+                                ->count() > 0 ) {
+                                    $counterSignWeek++;
+                                }
+
+                                
+                            }
+                            // abilitazione settimanale concessa
+                            if($counterSignWeek == 12) {
+                                $weekVisual = true;
+                            }
+                        }
+                        if($objects_zodiac_descriptions -> Where('Period_ID', '=', $idWeek)->count() >= 12 ) {
+                            $counterSignMonth = 0;
+                            // conto se esiste almeno un valore per il segno zodiacale corrente
+                            foreach($zodiac_signs as $zodiac_sign_3) {
+                                
+                                if($objects_zodiac_descriptions 
+                                -> Where('Period_ID', '=', $idMonth)
+                                -> Where('Sign_ID', '=',  $zodiac_sign_3 -> Id)
+                                ->count() > 0 ) {
+                                    $counterSignMonth++;
+                                }
+
+                                
+                            }
+                            // abilitazione settimanale concessa
+                            if($counterSignMonth == 12) {
+                                $monthVisual = true;
+                            }
+                        }
+                
+
+                            // posso valorizzare per i dati in visualizzazione giornaliera
+                            if($dayVisual) {
+                                $dailyHor_Real = [];
+                                // visualizzazione giornaliera
+                                $dailyHor = $objects_zodiac_descriptions 
+                                -> Where('Sign_ID', '=', $idSign)
+                                -> Where('Period_ID', '=', $idDay);
+                               
+    
+                                $dailyHor_Real['Sign'] = $descrSign;
+                                $dailyHor_Real['Value'] = $dailyHor;
+    
+                                // valorizzazione dei parametri di sessione
+                                session()->put('visualizzazione_giornaliera', $dailyHor_Real);
+                                session()->put('vis_day_ok', $dayVisual);
+                            }
+
                            
+                            
 
-                            $dailyHor_Real['Sign'] = $descrSign;
-                            $dailyHor_Real['Value'] = $dailyHor;
+                            if($weekVisual) {
+                                // risultati temporanei per i valori settimanali conservati in DB
+                                $weekHor_TMPs = $objects_zodiac_descriptions 
+                                -> Where('Period_ID', '=', $idWeek);
+                                // inizializzazione dell'insieme di dati da visualizzare settimanalmente nel contesto
+                                $weekHor_Real = [];
+                                foreach($zodiac_signs as $zodiac_sign_1) {
 
+                                    $weekHor_Real[$zodiac_sign_1 -> Description] = null;
+                                }
+                                // scremo rispetto a risultati multipli per i diversi segni 
+                                foreach($weekHor_TMPs as $weekHor_TMP) {
 
-                            session()->put('visualizzazione_giornaliera', $dailyHor_Real);
+                                    $zodiac_name = $zodiac_signs->Where('Id', '=', $weekHor_TMP->Sign_ID)->First()->Description;
+                                    // prima e unica inizializzazione per l'oggetto da inserire per il segno corrente 
+                                    // questo mi serve per non avere valori ripetuti di ritorno 
+                                    if($weekHor_Real[$zodiac_name] == null) {
+                                        $weekHor_Real[$zodiac_name] = $weekHor_TMP;
+                                    }
+                                }
+                                // valorizzazione dei parametri di sessione
+                                session()->put('visualizzazione_settimanale', $weekHor_Real);
+                                session()->put('vis_week_ok', $dayVisual);
+                            }
                             
 
 
-                            // risultati temporanei per i valori settimanali conservati in DB
-                            $weekHor_TMPs = $objects_zodiac_descriptions 
-                            -> Where('Period_ID', '=', $idWeek);
-                            // inizializzazione dell'insieme di dati da visualizzare settimanalmente nel contesto
-                            $weekHor_Real = [];
-                            foreach($zodiac_signs as $zodiac_sign_1) {
-
-                                $weekHor_Real[$zodiac_sign_1 -> Description] = null;
-                            }
-                            // scremo rispetto a risultati multipli per i diversi segni 
-                            foreach($weekHor_TMPs as $weekHor_TMP) {
-
-                                $zodiac_name = $zodiac_signs->Where('Id', '=', $weekHor_TMP->Sign_ID)->First()->Description;
-                                // prima e unica inizializzazione per l'oggetto da inserire per il segno corrente 
-                                // questo mi serve per non avere valori ripetuti di ritorno 
-                                if($weekHor_Real[$zodiac_name] == null) {
-                                    $weekHor_Real[$zodiac_name] = $weekHor_TMP;
-                                }
-                            }
-                            session()->put('visualizzazione_settimanale', $weekHor_Real);
-
-
                             if($user->SubscriptionType_ID == 2) {
-                            // visualizzazione mensile 
-                            $monthHor_TMPs = $objects_zodiac_descriptions 
-                            -> Where('Period_ID', '=', $idMonth);
-                            // inizializzazione dell'insieme di dati da visualizzare settimanalmente nel contesto
-                            $monthHor_Real = [];
 
-                            foreach($zodiac_signs as $zodiac_sign_1) {
 
-                                $monthHor_Real[$zodiac_sign_1 -> Description] = null;
-                            }
-                            foreach($monthHor_TMPs as $monthHor_TMP) {
+                                if($monthVisual) {
+                                    // visualizzazione mensile 
+                                    $monthHor_TMPs = $objects_zodiac_descriptions 
+                                    -> Where('Period_ID', '=', $idMonth);
+                                    // inizializzazione dell'insieme di dati da visualizzare settimanalmente nel contesto
+                                    $monthHor_Real = [];
 
-                                $zodiac_name = $zodiac_signs->Where('Id', '=', $monthHor_TMP->Sign_ID)->First()->Description;
-                                // prima e unica inizializzazione per l'oggetto da inserire per il segno corrente 
-                                // questo mi serve per non avere valori ripetuti di ritorno 
-                                if($monthHor_Real[$zodiac_name] == null) {
-                                    $monthHor_Real[$zodiac_name] = $monthHor_TMP;
+                                    foreach($zodiac_signs as $zodiac_sign_1) {
+
+                                        $monthHor_Real[$zodiac_sign_1 -> Description] = null;
+                                    }
+                                    foreach($monthHor_TMPs as $monthHor_TMP) {
+
+                                        $zodiac_name = $zodiac_signs->Where('Id', '=', $monthHor_TMP->Sign_ID)->First()->Description;
+                                        // prima e unica inizializzazione per l'oggetto da inserire per il segno corrente 
+                                        // questo mi serve per non avere valori ripetuti di ritorno 
+                                        if($monthHor_Real[$zodiac_name] == null) {
+                                            $monthHor_Real[$zodiac_name] = $monthHor_TMP;
+                                        }
+                                    }
+                                    session()->put('visualizzazione_mensile', $monthHor_Real);
+                                    session()->put('vis_month_ok', $dayVisual);
                                 }
-                            }
-                            session()->put('visualizzazione_mensile', $monthHor_Real);
+                           
                             
                             }
 

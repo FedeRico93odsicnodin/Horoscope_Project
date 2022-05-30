@@ -16,6 +16,15 @@
     padding: 20px;
   }
 
+  .content_onBkg_2 {
+    position:sticky;
+    bottom: 0;
+    color: black;
+    width: 100%;
+    padding: 20px;
+  }
+
+
 
   .content_onBkg_fixed {
     position:fixed;

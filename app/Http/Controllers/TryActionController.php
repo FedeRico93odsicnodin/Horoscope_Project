@@ -25,6 +25,7 @@ class TryActionController extends Controller
         
         // dichiarazione della variabile di ritorno 
         $varRetDayH = [];
+        $varRetDayH['displayInfo'] = false;
         $varRetDayH['Sign'] = '';
         $varRetDayH['Content'] = null;
 
@@ -83,9 +84,19 @@ class TryActionController extends Controller
                             -> where('Sign_ID', '=', $zodiac_sign -> Id)
                             ->get()->First();
 
-                            // return $objects_zodiac_descriptions;
-                            $varRetDayH['Sign'] = $zodiac_sign -> Description;
-                            $varRetDayH['Content'] = $objects_zodiac_descriptions;
+                            // validazione informazioni
+                            if($objects_zodiac_descriptions == null) {
+                                $varRetDayH['displayInfo'] = false;
+                                $varRetDayH['Sign'] = '';
+                                $varRetDayH['Content'] = null;
+                            }
+                            else {
+
+                                $varRetDayH['displayInfo'] = true;
+                                $varRetDayH['Sign'] = $zodiac_sign -> Description;
+                                $varRetDayH['Content'] = $objects_zodiac_descriptions;
+                            }
+
 
                         }}
         

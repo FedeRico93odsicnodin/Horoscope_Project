@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Laravel</title>
+        <title>Daily Horoscope</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -44,19 +44,46 @@
         <input type="submit" value="Submit">
       </form>
 
+
+      @if($DailySign['displayInfo'])
       <section class="page-section">
     <div class="container" id="contact">
         <div class="row">
-            <div class="col-md-12">
-
-            <h1 class="text-center carousel-title text-white font-weight-bold">Daily Horoscope:</h1>
-            <hr>
-
-            </div>
+            
             <center>
-            <div class="carousel-item active" id="carousel_custom_id_3">
+                
+            <div class="carousel-item active  text-white" id="carousel_custom_id_3">
+
                                         <div id="carousel_custom_id_2">
-                                            <h5>{{ $DailySign['Sign'] }}</h5>
+                                            @if($DailySign['Sign'] == 'Ariete')
+                                            <img class="rounded-circle" style="width:145px;height:145px" src="{{ url('data/signs/ariete_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Toro')
+                                            <img class="rounded-circle" style="width:145px;height:145px" src="{{ url('data/signs/Toro_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Gemelli')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/Gemelli_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Cancro')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/Cancro_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Leone')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/leone_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Vergine')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/vergine_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Bilancia')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/bilancia_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Scorpione')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/scorpione_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Capricorno')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/capricorno_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Sagittario')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/sagittario_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Acquario')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/acquario_2.png') }}">
+                                            @elseif($DailySign['Sign'] == 'Pesci')
+                                            <img class="rounded-circle" style="width:120px;height:120px" src="{{ url('data/signs/pesci_2.png') }}">
+                                            @endif
+
+
+                                            
+                                            <h5 style="padding-top: 30px">{{ $DailySign['Sign'] }}</h5>
                                             <div><p> 
                                                 {{ $DailySign['Content'] -> Description_Prevision}}
                                                 
@@ -67,7 +94,21 @@
             </div>
             
         </div>
-    </section>>
+    </section>
+      @else 
+      <section class="page-section">
+        <div class="container" id="contact">
+            <div class="row">
+                <div class="col-md-12">
+
+                <h1 class="text-center carousel-title text-white font-weight-bold">No data to display for day</h1>
+             
+                </div>
+
+
+            </section>
+      @endif
+      
         
     </body>
     

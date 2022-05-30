@@ -17,6 +17,20 @@ class UploadFile extends Controller
     public function uploadCSV(Request $request) {
 
         try {
+            if($request->file == '') {
+            // messaggio errore
+            $uploadFileResult = [
+                "result" => false, 
+                "message" => 'no file selected'
+                ];
+
+                session()->put('uploadFile_result', $uploadFileResult);
+
+                return redirect('/yourprofile');
+
+            }
+        
+
         // recupero tutti i valori di riferimento per i segni zodiacali e l'enumerazione dei gionri
         $zodiac_signs = DB::table('horoscope_signs')->get();
         $enum_periods = DB::table('enum_periods')->get();

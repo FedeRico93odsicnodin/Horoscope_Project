@@ -28,7 +28,7 @@
   
   /*# sourceMappingURL=main.css.map */
   #carousel_custom_id {
-      background-color: indigo;
+      background-color: rgba(13, 13, 13, 0.621);
       min-height: 500px;
       border-radius: 25px;
       
@@ -41,8 +41,8 @@
       overflow-y:scroll;
       overflow: auto;
   }
-  #carousel_custom_id_4 {
-    margin:30px;
+  #custom_table_page_container {
+    margin:6px;
     padding:4px;
     overflow-y:scroll;
     overflow: auto;
@@ -50,8 +50,9 @@
 
 
   #carousel_custom_id_3 {
-    background-color: rgb(140, 106, 165);
+    background-color: rgba(247, 247, 247, 0.463);
       min-height: 500px;
+      padding:10px;
       border-radius: 25px;
       
   }
@@ -59,15 +60,26 @@
 
   .customButton {
       background-color: black;
+      background-image: url('/data/profile_3.png');
+      background-repeat: no-repeat;
+      background-position:center;
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      border-style: none;
       position:sticky;
       margin-right: 5px;
   }
 
 
   #carouselMonthly {
-      min-height: 400px;
-      
+      background-color:rgba(13, 13, 13, 0.621);
+      min-height: 300px;
+      border-radius: 25px;
+  }
+
+
+  #custom_table_page_container {
+
+    padding:15px;
   }
